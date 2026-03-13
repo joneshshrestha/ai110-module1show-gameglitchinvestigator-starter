@@ -6,7 +6,7 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 
 - What did the game look like the first time you ran it?
 - List at least two concrete bugs you noticed at the start  
-  (for example: "the secret number kept changing" or "the hints were backwards").
+  (for example: "the hints were backwards").
 
 -- The game looked normal when I started until I started playing around the dropdowns and buttons.
 -- The concrete bugs I noticed at the start were:
@@ -39,13 +39,9 @@ The test cases also included result = check_guess(...) then asserted result == "
 
 ## 4. What did you learn about Streamlit and state?
 
-- In your own words, explain why the secret number kept changing in the original app.
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
-- What change did you make that finally gave the game a stable secret number?
 
--- The secret number kept changing because Streamlit reruns the whole script every time I clicked a button, and the secret was being regenerated instead of being preserved as game state.
 -- I would explain reruns and session state like this: rerun means the app code executes from top to bottom on every interaction, while session state is memory that survives those reruns for the same user session.
--- The key fix was storing the secret in session state and only creating it when it does not already exist, so one round keeps one stable secret number.
 
 ## 5. Looking ahead: your developer habits
 
