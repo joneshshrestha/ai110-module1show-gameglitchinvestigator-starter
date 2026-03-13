@@ -26,13 +26,16 @@ It wrote the code, ran away, and now the game is unplayable.
 ## 📝 Document Your Experience
 
 - [ ] Describe the game's purpose.
+This is a number-guessing challenge game where the player tries to find a secret number within a selected difficulty range using limited attempts, hints, and a running score.
 - [ ] Detail which bugs you found.
+I found four main bugs: difficulty ranges were inconsistent (Normal and Hard were swapped), hint directions were reversed (higher/lower messages were opposite), New Game sometimes prevented proper next-round submission flow, and secret number generation was not always aligned with the selected difficulty.
 - [ ] Explain what fixes you applied.
+I fixed the difficulty mapping so ranges progress correctly (Easy 1-20, Normal 1-50, Hard 1-100), corrected hint messages to match guess outcomes, updated New Game reset state (attempts/status/history) so rounds restart cleanly, and ensured secret generation uses the active difficulty bounds instead of a hardcoded range.
 
 ## 📸 Demo
 
-- [ ] [Insert a screenshot of your fixed, winning game here]
+- [ ] ![alt text](screenshots/Game.jpg)
 
 ## 🚀 Stretch Features
 
-- [ ] [If you choose to complete Challenge 4, insert a screenshot of your Enhanced Game UI here]
+- [ ] ![alt text](screenshots/Test.jpg)

@@ -43,7 +43,9 @@ The test cases also included result = check_guess(...) then asserted result == "
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
 - What change did you make that finally gave the game a stable secret number?
 
----
+-- The secret number kept changing because Streamlit reruns the whole script every time I clicked a button, and the secret was being regenerated instead of being preserved as game state.
+-- I would explain reruns and session state like this: rerun means the app code executes from top to bottom on every interaction, while session state is memory that survives those reruns for the same user session.
+-- The key fix was storing the secret in session state and only creating it when it does not already exist, so one round keeps one stable secret number.
 
 ## 5. Looking ahead: your developer habits
 
@@ -51,3 +53,7 @@ The test cases also included result = check_guess(...) then asserted result == "
   - This could be a testing habit, a prompting strategy, or a way you used Git.
 - What is one thing you would do differently next time you work with AI on a coding task?
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+
+-- One habit I want to reuse is writing targeted tests for each bug before and after changes, because it helped me verify fixes faster and avoid guessing. Also, giving a detailed and more specific context when prompting.
+-- Next time, I would ask AI for smaller, more specific changes and validate each one immediately instead of accepting larger suggestions all at once.
+-- This project changed how I see AI-generated code: it is helpful for speed and ideas, but it still needs careful review, debugging, and testing before I can trust it. Instead of blindly accepting changes until the application works, learning what changes it made and how it effected the application.
