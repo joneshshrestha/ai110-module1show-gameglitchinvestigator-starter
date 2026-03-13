@@ -1,14 +1,6 @@
 import random
 import streamlit as st
-
-def get_range_for_difficulty(difficulty: str):
-    if difficulty == "Easy":
-        return 1, 20
-    if difficulty == "Normal":
-        return 1, 100
-    if difficulty == "Hard":
-        return 1, 50
-    return 1, 100
+from logic_utils import get_range_for_difficulty
 
 
 def parse_guess(raw: str):
@@ -64,6 +56,7 @@ def update_score(current_score: int, outcome: str, attempt_number: int):
 
     return current_score
 
+
 st.set_page_config(page_title="Glitchy Guesser", page_icon="🎮")
 
 st.title("🎮 Game Glitch Investigator")
@@ -78,8 +71,8 @@ difficulty = st.sidebar.selectbox(
 )
 
 attempt_limit_map = {
-    "Easy": 6,
-    "Normal": 8,
+    "Easy": 8,
+    "Normal": 6,
     "Hard": 5,
 }
 attempt_limit = attempt_limit_map[difficulty]
@@ -89,6 +82,8 @@ low, high = get_range_for_difficulty(difficulty)
 st.sidebar.caption(f"Range: {low} to {high}")
 st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 
+# FIXME: Logic breaks here
+# I observed was that the 'Secret' number that was being generated based on the 'Difficulty' range was not accurate.
 if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
@@ -107,7 +102,7 @@ if "history" not in st.session_state:
 st.subheader("Make a guess")
 
 st.info(
-    f"Guess a number between 1 and 100. "
+    f"Guess a number between {low} and {high}. "
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
 )
 
@@ -118,10 +113,7 @@ with st.expander("Developer Debug Info"):
     st.write("Difficulty:", difficulty)
     st.write("History:", st.session_state.history)
 
-raw_guess = st.text_input(
-    "Enter your guess:",
-    key=f"guess_input_{difficulty}"
-)
+raw_guess = st.text_input("Enter your guess:", key=f"guess_input_{difficulty}")
 
 col1, col2, col3 = st.columns(3)
 with col1:
@@ -132,6 +124,7 @@ with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
 # FIXME: Logic breaks here
+# when the game was over and I tried to start a new game with 'New Game' button, it did reset and start a new game but, I wasn't able to submit the answer with 'Submit Guess' button.
 if new_game:
     st.session_state.attempts = 0
     st.session_state.secret = random.randint(1, 100)
