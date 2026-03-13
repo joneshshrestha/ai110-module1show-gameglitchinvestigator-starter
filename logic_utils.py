@@ -1,3 +1,10 @@
+# FIXME: The difficulty 'Range' did not match the selected difficulty. For example,
+# 'Normal' used 1 to 100 while 'Hard' used 1 to 50, which made the difficulty progression inconsistent.
+# I also observed that the secret number generated from the selected difficulty range was not accurate.
+
+
+# FIX: Refactored logic into logic_utils.py and corrected the difficulty ranges here, Normal now returns (1, 50) and Hard returns (1, 100),
+# which keeps generated secrets aligned with the selected difficulty throughout the app using Copilot Agent mode
 def get_range_for_difficulty(difficulty: str):
     """Return (low, high) inclusive range for a given difficulty."""
     if difficulty == "Easy":
@@ -15,18 +22,64 @@ def parse_guess(raw: str):
 
     Returns: (ok: bool, guess_int: int | None, error_message: str | None)
     """
-    raise NotImplementedError("Refactor this function from app.py into logic_utils.py")
+    if raw is None:
+        return False, None, "Enter a guess."
+
+    if raw == "":
+        return False, None, "Enter a guess."
+
+    try:
+        if "." in raw:
+            value = int(float(raw))
+        else:
+            value = int(raw)
+    except Exception:
+        return False, None, "That is not a number."
+
+    return True, value, None
 
 
+# FIXME: The hint directions were reversed. When it was supposed to say 'lower' it showed 'Go HIGHER!',
+# and when it was supposed to say 'higher' it showed 'Go LOWER!'.
+
+
+# FIX: Refactored logic into logic_utils.py and return the correct hint message for each outcome using Copilot Agent mode.
 def check_guess(guess, secret):
     """
     Compare guess to secret and return (outcome, message).
 
     outcome examples: "Win", "Too High", "Too Low"
     """
-    raise NotImplementedError("Refactor this function from app.py into logic_utils.py")
+    if guess == secret:
+        return "Win", "🎉 Correct!"
+
+    try:
+        if guess > secret:
+            return "Too High", "📉 Go LOWER!"
+        return "Too Low", "📈 Go HIGHER!"
+    except TypeError:
+        g = str(guess)
+        if g == secret:
+            return "Win", "🎉 Correct!"
+        if g > secret:
+            return "Too High", "📉 Go LOWER!"
+        return "Too Low", "📈 Go HIGHER!"
 
 
 def update_score(current_score: int, outcome: str, attempt_number: int):
     """Update score based on outcome and attempt number."""
-    raise NotImplementedError("Refactor this function from app.py into logic_utils.py")
+    if outcome == "Win":
+        points = 100 - 10 * (attempt_number + 1)
+        if points < 10:
+            points = 10
+        return current_score + points
+
+    if outcome == "Too High":
+        if attempt_number % 2 == 0:
+            return current_score + 5
+        return current_score - 5
+
+    if outcome == "Too Low":
+        return current_score - 5
+
+    return current_score
