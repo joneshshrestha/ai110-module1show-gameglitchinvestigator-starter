@@ -22,8 +22,9 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - Give one example of an AI suggestion that was incorrect or misleading (including what the AI suggested and how you verified the result).
 
 -- I used Copilot(GPT-5.3-Codex) for this project as instructed.
--- 
-
+-- The refactoring was correct and it also correctly imported the functions from logic_utils.py and fixed the bugs I mentioned. I verified this by looking at the code and running the final pytest which shows all 13 test cases passed.
+-- The incorrect AI suggestion was I got that was incorrect or misleading was when I used Copilot to create a test_game_logic.py file inside test directory. The first issue was it tired to import the logic_utils.py not considering the file was outside the tests directory and can't be imported just by simple `from logic_utils`. And the second issue was it tried to import the function that was not yet refactored from app.py into logic.py. I verified this when I ran the `pytest` command and checked the terminal output as well as the test file. 
+The test cases also included result = check_guess(...) then asserted result == "Win" / "Too High" / "Too Low" for (test_winning_guess, test_guess_too_high, test_guess_too_low). Since check_guess returns a (outcome, message) tuple, these comparisons would always be False. Fixed by unpacking the tuple. 
 
 ## 3. Debugging and testing your fixes
 
@@ -32,7 +33,9 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
   and what it showed you about your code.
 - Did AI help you design or understand any tests? How?
 
----
+-- I considered a bug fixed only after I applied the change, and then fail to reproduce that same bug. I also checked that the fix did not break other features by testing different difficulty settings and full game.
+-- One manual test I ran was: select each difficulty, start a new game, and verify that the range shown in the sidebar matched the actual secret behavior and that hints pointed in the correct direction. This showed me the range mapping and hint logic were now consistent with the selected difficulty. I also ran `pytest` and confirmed all 13 tests passed, which gave me confidence that the core game logic functions were behaving correctly.
+-- AI helped me design and understand tests by suggesting test cases for difficulty ranges, hint direction checks, and parse/validation behavior, then I verified and corrected the assertions where needed.
 
 ## 4. What did you learn about Streamlit and state?
 
